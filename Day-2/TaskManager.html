@@ -17,7 +17,9 @@
 		text-decoration: line-through;
 	}
 	</style>
-
+	<script src="Taskmanager.js">
+	
+	</script>
 </head>
 <body>
 	<h1>Task Manager</h1>
@@ -26,21 +28,6 @@
 	<input type="button" value="Add Task" id="btnAddTask">
 	<input type="button" value="Remove Completed" id="btnRemoveCompleted">
 	<ul id="ulTaskList"></ul>
-	<script>
-		function onBtnAddTaskClick(){
-			var task = document.getElementById("txtTask").value,
-				newTask = document.createElement("li"),
-				taskList = document.getElementById("ulTaskList");
-			newTask.addEventListener("click", onTaskItemClick);
-			newTask.classList.add("dummy");
-			newTask.innerHTML = task;
-			taskList.appendChild(newTask);
-		}
-		function onTaskItemClick(){
-			this.classList.toggle("completed");
-		}
-		document.getElementById("btnAddTask").addEventListener("click",onBtnAddTaskClick);
 
-	</script>
 </body>
 </html>
