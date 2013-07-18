@@ -11,49 +11,44 @@
 		padding-top: 20px;
 		padding-bottom: 20px;
 	}
+	#divMessage{
+		font-size: 28px;
+	}
 	.completed{
 		color : red;
 		font-style: italic;
 		text-decoration: line-through;
 	}
 	</style>
+	<script src="jquery-1.10.2.js"></script>
 	<script>
 	(function(){
 		function onBtnAddTaskClick(){
-			var task = document.getElementById("txtTask").value,
-				newTask = document.createElement("li"),
-				taskList = document.getElementById("ulTaskList");
-			newTask.addEventListener("click", onTaskItemClick);
-			newTask.classList.add("dummy");
-			newTask.innerHTML = task;
-			taskList.appendChild(newTask);
+			$("<li>")
+				.html($("#txtTask").val())
+				.appendTo("#ulTaskList");
+			displayMessage("A new task is added");
 		}
 		function onTaskItemClick(){
-			if(this.classList.contains("completed")){
-				this.classList.remove("completed");
-			} else {
-				this.classList.add("completed");
-			}
+			$(this).toggleClass("completed");
 		}
 		function onBtnRemoveCompletedClick(){
-			var taskList = document.getElementById("ulTaskList");
-			for(var i=taskList.children.length-1;i>=0;i--){
-				var taskItem = taskList.children[i];
-				if (taskItem.classList.contains("completed"))
-					taskList.removeChild(taskItem);
-			}
-
+			$("#ulTaskList > li.completed").fadeOut(function(){ $(this).remove();});
+			displayMessage("One or more tasks are removed");
 		}
-		function initialize(){
-			document.getElementById("btnAddTask").addEventListener("click",onBtnAddTaskClick);
-			document.getElementById("btnRemoveCompleted").addEventListener("click",onBtnRemoveCompletedClick);
-			var taskList = document.getElementById("ulTaskList");
-			for(var i=taskList.children.length-1;i>=0;i--){
-				var taskItem = taskList.children[i];
-				taskItem.addEventListener("click",onTaskItemClick);
-			}				
+		function displayMessage(msg){
+			$("#divMessage")
+				.hide()
+				.html(msg)
+				.fadeIn('medium')
+				.delay(3000)
+				.fadeOut('medium');
 		}
-		window.addEventListener("DOMContentLoaded",initialize);
+		$(function(){
+			$("#btnAddTask").on("click",onBtnAddTaskClick);
+			$("#btnRemoveCompleted").on("click",onBtnRemoveCompletedClick);
+			$("#ulTaskList").on("click","li",onTaskItemClick);
+		});
 	})();	
 
 	</script>
@@ -69,6 +64,8 @@
 		<li>Task-2</li>
 		<li>Task-3</li>
 	</ul>
-	
+	<div id="divMessage">
+		[Test Message]
+	</div>
 </body>
 </html>
