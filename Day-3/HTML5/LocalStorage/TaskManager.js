@@ -10,12 +10,14 @@
 	function addTaskToUi(task){
 		var $newTaskLi = $("<li>")
 				.html(task.name)
+				.addClass(task.isCompleted ? "completed" : "")
 				.attr("task-id",task.id);
 
 			$("#ulTaskList").append($newTaskLi);
 	}
 	function onTaskItemClick(){
 		$(this).toggleClass("completed");
+		taskStorage.toggleCompletion($(this).attr("task-id"));
 	}
 	function onBtnRemoveCompletedClick(){
 		$("#ulTaskList > li.completed")
