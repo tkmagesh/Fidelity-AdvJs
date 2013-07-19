@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Web Workers Demo</title>
+	<script>
+	(function(){
+		window.addEventListener("DOMContentLoaded",function(){
+			document.getElementById("btnDoWork").addEventListener("click",btnDoWorkClick);
+		});
+		function btnDoWorkClick(){
+			displayMessage("Work Starting...");
+			setTimeout(function(){
+						doWork();
+						
+					},1);
+		}
+		function doWork(){
+			var count = 0;
+			setTimeout( function(){
+							console.log(count);
+							for(var i=0;i<5;i++)
+								for(var j=0;j<1000;j++)
+									for(var k=0;k<100;k++)
+									{}
+							count++;
+							if (count < 10000) {
+								setTimeout(arguments.callee,1);
+							} else {
+								displayMessage("Work Completed...");
+							}
+						},1);
+		}
+		function displayMessage(msg){
+			document.getElementById("divMessage").innerHTML += msg + "<br/>";
+		}
+	})();
+	</script>
+</head>
+<body>
+	<input type="button" value="Do Work" id="btnDoWork">
+	<input type="text" name="" id="">
+	<div id="divMessage"></div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Web Workers Demo</title>
+	<script>
+	(function(){
+		var worker = new Worker("ComplexWorker.js");
+		worker.addEventListener("message",function(msgEvt){
+			if (msgEvt.data === "completed"){
+				displayMessage("completed...");
+			} else {
+				console.log(msgEvt);
+			}
+		});
+		window.addEventListener("DOMContentLoaded",function(){
+			document.getElementById("btnDoWork").addEventListener("click", btnDoWorkClick);
+		});
+		function btnDoWorkClick(){
+			worker.postMessage("start");
+			displayMessage("started....");
+		}
+		function displayMessage(msg){
+			document.getElementById("divMessage").innerHTML += msg + "<br/>";
+		}
+	})();
+	</script>
+</head>
+<body>
+	<input type="button" value="Do Work" id="btnDoWork">
+	<input type="text" name="" id="">
+	<div id="divMessage"></div>
+</body>
+</html>
