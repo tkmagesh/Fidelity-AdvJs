@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Prime Finder</title>
+	<script>
+	(function(){
+		var worker = new Worker("primeFinder.js");
+		worker.addEventListener("message",function(msgEvt){
+			var res =  msgEvt.data;
+			if (res.type === "completed"){
+			displayMessage(res.primeCount + " prime numbers are found between " + res.start + " and " + res.end);
+			} else {
+				document.getElementById("progress").value = res.percentCompleted;
+				document.getElementById("primeCount").innerHTML = res.primeCount;
+			}
+		});
+		window.addEventListener("DOMContentLoaded",function(){
+			document.getElementById("btnFind").addEventListener("click",function(){
+				var start = document.getElementById("txtStart").value,
+					end = document.getElementById("txtEnd").value,
+					req = {type : "start", start : start, end : end};
+				worker.postMessage(req);
+			});	
+		});
+		function displayMessage(msg){
+			document.getElementById("divMessage").innerHTML += msg + "<br/>";
+		}
+	})();
+
+	</script>
+</head>
+<body>
+	<span>Start :</span>
+	<input type="text" name="" id="txtStart">
+	<span>End :</span>
+	<input type="text" name="" id="txtEnd">
+	<input type="button" value="Find Prime Count" id="btnFind">
+	<br>
+	<progress id="progress" min="0" max="100" value="0"></progress>
+	<span id="primeCount"></span>
+	<div id="divMessage"></div>
+</body>
+</html>
