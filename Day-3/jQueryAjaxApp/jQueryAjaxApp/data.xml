@@ -1,0 +1,14 @@
+﻿<Employees>
+  <Employee>
+    <Id>1001</Id>
+    <Name>Magesh</Name>
+  </Employee>
+  <Employee>
+    <Id>1002</Id>
+    <Name>Suresh</Name>
+  </Employee>
+  <Employee>
+    <Id>1003</Id>
+    <Name>Kannan</Name>
+  </Employee>
+</Employees>

@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery Ajax Demo</title>
+	<script src="jquery-1.10.2.js"></script>
+	<script>
+	$(function(){
+		$("#btnLoad").click(function(){
+			$("#divServerHTML").load("ServerTime.html");
+		});
+	})
+	</script>
+</head>
+<body>
+	<input type="button" value="Load" id="btnLoad">
+	<div id="divServerHTML"></div>
+</body>
+</html>

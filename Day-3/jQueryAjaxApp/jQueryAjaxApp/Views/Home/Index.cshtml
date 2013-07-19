@@ -1,0 +1,91 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>title</title>
+        <script src="@Url.Content("~/Scripts/jquery-1.10.2.js")" type="text/javascript"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/xmltojson.js")">
+         
+        </script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/handlebars.js")"></script>
+        <script type="text/javascript">
+            $(function () {
+                $("#divAjaxBusy").hide();
+                $(document).ajaxStart(function () {
+                    $("#divAjaxBusy").show();
+                }).ajaxComplete(function () {
+                    $("#divAjaxBusy").hide();
+                });
+                var source = $("#emp-template").html();
+                var template = Handlebars.compile(source);
+
+                $("#btnLoadEmployees").click(function () {
+                    $.ajax({
+                        url: "/data.xml",
+                        type: "get",
+                        dataType: "xml",
+                        contentType: "text/xml",
+                        success: function (res) {
+                            var employees = $.xml2json(res);
+                            var resultHtml = template(employees);
+                            $("#divEmployees").append(resultHtml);
+                        }
+                    });
+                });
+                $("#btnCreateHidden").click(function () {
+                    $("<input>").attr("type", "hidden").val(100).appendTo(document.body);
+                });
+
+                $("#btnAdd").click(function () {
+                    var input = {
+                        number1: $("#txtNumber1").val(),
+                        number2: $("#txtNumber2").val()
+                    };
+                    var inputAsJSON = JSON.stringify(input);
+                    $.ajax({
+                        url: "/Home/Add",
+                        type: "POST",
+                        dataType: "json",
+                        contentType: "application/json",
+                        data: inputAsJSON,
+                        success: function (res) {
+                            $("#divResult").html(res.result);
+                        }
+                    });
+                });
+            });
+        </script>
+        <script id="emp-template" type="text/x-handlebars-template">
+            <table>
+            {{#each Employee}}
+            <tr><td>{{Id}}</td><td>{{Name}}</td></tr>
+            {{/each}}
+            </table>
+        
+        </script>
+    </head>
+    <body>
+        <div id="divAjaxBusy">
+            <img src="/Content/images/ajaxbusy.gif" alt="Alternate Text" />Processing...!!!
+        </div>
+        <div>
+            <input type="text" name="txtNumber1" value="" id="txtNumber1" />
+            <input type="text" name="txtNumber2" value="" id="txtNumber2" />
+            <input type="button" name="btnAdd" id="btnAdd" value="Add Numbers" />
+            <div id="divResult">
+            </div>
+
+        </div>
+        <div>
+            <input type="button" name="btnLoadEmployees" id="btnLoadEmployees" value="Load Employees" />
+            <div id="divEmployees">
+                
+            </div>
+        </div>
+        <input type="button" name="btnCreateHidden" id="btnCreateHidden" value="Create Hidden" />
+    </body>
+</html>
