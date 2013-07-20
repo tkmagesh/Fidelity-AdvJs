@@ -1,3 +1,4 @@
+app = app || {};
 (function(){
 	var salaryCalculatorBase = {
 		subscribers : (function(){
@@ -32,8 +33,10 @@
 						for(var i=0;i<allnetSubs.length;i++)
 							allnetSubs[i]();
 					}
-				}
+					return;
+				} 
 				return _basic;
+				
 			}
 		})(), 
 		hra : (function(){
@@ -46,7 +49,8 @@
 						for(var i=0;i<allnetSubs.length;i++)
 							allnetSubs[i]();
 					}
-				}
+					return;
+				} 
 				return _hra;
 			}
 		})(),
@@ -60,6 +64,7 @@
 						for(var i=0;i<allnetSubs.length;i++)
 							allnetSubs[i]();
 					}
+					return;
 				}
 				return _da;
 			}
@@ -74,6 +79,7 @@
 						for(var i=0;i<allnetSubs.length;i++)
 							allnetSubs[i]();
 					}
+					return;
 				}
 				return _tax;
 			}
@@ -88,6 +94,7 @@
 						for(var i=0;i<allnetSubs.length;i++)
 							allnetSubs[i]();
 					}
+					return;
 				}
 				return _net;
 			}
@@ -97,6 +104,6 @@
 
 	};
 	SalaryCalculator.prototype = salaryCalculatorBase;
-	window.SalaryCalculator = SalaryCalculator;	
+	app.SalaryCalculator = SalaryCalculator;
 })();
 
