@@ -1,0 +1,8 @@
+#divMessage{
+	font-size: 28px;
+}
+.completed{
+	color : red;
+	font-style: italic;
+	text-decoration: line-through;
+}

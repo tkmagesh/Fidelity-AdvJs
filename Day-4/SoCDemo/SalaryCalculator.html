@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Salary Calculator</title>
+	<script src="jquery-1.10.2.js"></script>
+	<script src="SalaryCalculatorModel.js"></script>
+	<script>
+	var utils = {
+		any : function(list,criteria){
+			for(var i=0;i<list.length;i++)
+				if (criteria(list[i])) return true;
+			return false;
+		}
+	};
+
+	$(function(){
+		$("#spanTax").text($("#rangeTax").val());
+		$("#btnCalculate").attr('disabled','disabled');
+
+		$("input:text").on("change",function(){
+			if (utils.any($("input:text"),function(t){
+				return t.value==="";
+			})) {
+				$("#btnCalculate").attr("disabled","disabled");	
+			} else {
+				$("#btnCalculate").removeAttr("disabled");
+			}
+			
+		});
+		$("#rangeTax").change(function(){
+			$("#spanTax").text(this.value);
+
+		});
+		$("#btnCalculate").click(function(){
+			var basic = parseInt($("#txtBasic").val()),
+				hra = parseInt($("#txtHra").val()),
+				da = parseInt($("#txtDa").val()),
+				tax = parseInt($("#rangeTax").val());
+			
+			$("#divSalary").text(net);
+
+		})
+	});
+
+	
+
+	</script>
+</head>
+<body>
+	<div><span>Basic :</span><input type="text" name="" id="txtBasic"></div>
+	<div><span>Hra :</span><input type="text" name="" id="txtHra"></div>
+	<div><span>Da :</span><input type="text" name="" id="txtDa"></div>
+	<div><span>Tax :</span><input type="range" name="" id="rangeTax" min="10" max="50"><span id="spanTax"></span></div>
+	<input type="button" value="Calculate" id="btnCalculate">
+	<div id="divSalary"></div>
+</body>
+</html>
