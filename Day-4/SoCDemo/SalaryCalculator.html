@@ -13,41 +13,77 @@
 			return false;
 		}
 	};
+	function SalaryCalculatorView(model){
+		this.model =  model;
+		this.initialize = function(){
+			model.subscribers.add('net',function(){
+				$("#divSalary").text(model.net());
+			});
+			model.subscribers.add('tax',function(){
+				$("#rangeTax").val(model.tax());
+				$("#spanTax").text(model.tax());
+			});
+			model.subscribers.add('basic',function(){
+				$("#txtBasic").val(model.basic());
+			});
+			model.subscribers.add('hra',function(){
+				$("#txtHra").val(model.hra());
+			});
+			model.subscribers.add('da',function(){
+				$("#txtDa").val(model.da());
+			});
+			this.root = $("#calculatorTemplate").html();
+			this.$root = $(this.root);
+			this.$root.on('change',"#txtBasic", function(){
+				if (this.value !== ''){
+					model.basic(parseInt(this.value));
+					model.calculate();
+				}
+			});
+			this.$root.on('change',"#txtHra", function(){
+				if (this.value !== ''){
+					model.hra(parseInt(this.value));
+					model.calculate();
+				}
+			});		
+			this.$root.on('change',"#txtDa", function(){
+				if (this.value !== ''){
+					model.da(parseInt(this.value));
+					model.calculate();
+				}
+			});
+			this.$root.on('change',"#rangeTax", function(){
+				if (this.value !== ''){
+					model.tax(parseInt(this.value));
+					model.calculate();
+				}
+			});						
+		}
+		
+	}
 
 	$(function(){
-		$("#spanTax").text($("#rangeTax").val());
-		$("#btnCalculate").attr('disabled','disabled');
-
-		$("input:text").on("change",function(){
-			if (utils.any($("input:text"),function(t){
-				return t.value==="";
-			})) {
-				$("#btnCalculate").attr("disabled","disabled");	
-			} else {
-				$("#btnCalculate").removeAttr("disabled");
-			}
-			
-		});
-		$("#rangeTax").change(function(){
-			$("#spanTax").text(this.value);
-
-		});
-		$("#btnCalculate").click(function(){
+		window.model = new SalaryCalculator();
+		window.view = new SalaryCalculatorView(model);	
+		window.view.initialize();
+		$("#content").append(window.view.$root);
 		
-
-		});
+		
+		
 	});
 
 	
 
 	</script>
-</head>
-<body>
-	<div><span>Basic :</span><input type="text" name="" id="txtBasic"></div>
+	<script type="text/template" id="calculatorTemplate">
+		<div><span>Basic :</span><input type="text" name="" id="txtBasic"></div>
 	<div><span>Hra :</span><input type="text" name="" id="txtHra"></div>
 	<div><span>Da :</span><input type="text" name="" id="txtDa"></div>
 	<div><span>Tax :</span><input type="range" name="" id="rangeTax" min="10" max="50"><span id="spanTax"></span></div>
-	<input type="button" value="Calculate" id="btnCalculate">
 	<div id="divSalary"></div>
+	</script>
+</head>
+<body>
+	<div id="content"></div>	
 </body>
 </html>
